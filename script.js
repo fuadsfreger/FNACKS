@@ -40,7 +40,7 @@ document.getElementById('confirm-order').addEventListener('click', () => {
     const name = document.getElementById('name').value;
     const surname = document.getElementById('surname').value;
     const className = document.getElementById('class').value;
-
+    const email = document.getElementById('email').value;
     const orderData = `FNACKS Order\nName: ${name}\nSurname: ${surname}\nClass: ${className}`;
     
     document.getElementById('qr-code').innerHTML = "";
@@ -52,6 +52,34 @@ document.getElementById('confirm-order').addEventListener('click', () => {
     });
 
     document.getElementById('order-confirmation').style.display = 'block';
+
+    // Send email using Brevo API
+    sendOrderEmail(name, surname, className, email);
 });
+
+function sendOrderEmail(name, surname, className, email) {
+    const apiKey = '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';
+    const url = 'https://api.brevo.com/v3/smtp/email';
+    
+    const emailData = {
+        sender: { email: 'fuadfarzaliyev53@gmail.com', name: 'FNACKS' },
+        to: [{ email: email, name: `${name} ${surname}` }],
+        subject: 'FNACKS Order Confirmation',
+        htmlContent: `<p>Dear ${name} ${surname},</p><p>Your FNACKS order is confirmed!</p><p>Class: ${className}</p><p>Please pick up your order from 8J.</p>`
+    };
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'api-key': apiKey
+        },
+        body: JSON.stringify(emailData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Email sent:', data))
+    .catch(error => console.error('Error sending email:', error));
+}
+
 
 

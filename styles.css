@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: yellow;
+    color: black;
+}
+
+header {
+    text-align: center;
+    background-color: black;
+    color: yellow;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+#about-us {
+    text-align: center;
+    background-color: pink;
+    padding: 20px;
+}
+
+.product {
+    background-color: black;
+    color: yellow;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+button.add-to-cart {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button.add-to-cart:hover {
+    background-color: darkred;
+}
+
+#cart {
+    background-color: pink;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#checkout-form {
+    padding: 20px;
+    background-color: pink;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#qr-code {
+    margin-top: 20px;
+    text-align: center;
+}

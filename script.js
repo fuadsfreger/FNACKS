@@ -53,3 +53,5 @@ document.getElementById('confirm-order').addEventListener('click', () => {
 
     document.getElementById('order-confirmation').style.display = 'block';
 });
+
+

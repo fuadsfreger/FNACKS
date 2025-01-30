@@ -60,3 +60,63 @@ button.add-to-cart:hover {
     margin-top: 20px;
     text-align: center;
 }
+
+img {
+    display: block;
+    margin: 50px auto;
+}
+
+/* 🔥 Animations Added Below 🔥 */
+
+/* Logo Animation (Fade-in & Bounce) */
+.logo {
+    width: 150px;
+    display: block;
+    margin: 20px auto;
+    animation: fadeIn 2s ease-in-out, bounce 1s infinite alternate;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(10px);
+    }
+}
+
+/* Button Hover Animation */
+button.add-to-cart {
+    transition: transform 0.3s ease-in-out;
+}
+
+button.add-to-cart:hover {
+    transform: scale(1.1);
+}
+
+/* Product Slide-in Effect */
+.product {
+    opacity: 0;
+    transform: translateX(-100px);
+    animation: slideIn 1s forwards ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

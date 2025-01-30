@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FNACKS - Internet Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>FNACKS</h1>
+    </header>
+    <section id="about-us">
+        <h2>About Us</h2>
+        <p>We are an internet shop working in LANDAU School Bayil. Shop opened on 28/01/2025 and will continue as much as possible. THANK YOU FOR SUPPORTING US!</p>
+    </section>
+    <section id="products">
+        <h2>Products</h2>
+        <div class="product">
+            <h3>Lipton</h3>
+            <p>Price: 2.50 AZN</p>
+            <label for="lipton-flavor">Choose flavor:</label>
+            <select id="lipton-flavor">
+                <option value="classic">Classic</option>
+                <option value="lemon">Lemon</option>
+                <option value="peach">Peach</option>
+            </select>
+            <button class="add-to-cart" data-product="Lipton" data-price="2.50">Add to Cart</button>
+        </div>
+        <div class="product">
+            <h3>Kinder Bueno</h3>
+            <p>Price: 3.00 AZN</p>
+            <label for="kinder-flavor">Choose flavor:</label>
+            <select id="kinder-flavor">
+                <option value="milk">Milk</option>
+                <option value="white">White</option>
+                <option value="dark">Dark</option>
+            </select>
+            <button class="add-to-cart" data-product="Kinder Bueno" data-price="3.00">Add to Cart</button>
+        </div>
+        <div class="product">
+            <h3>Gums</h3>
+            <p>Price: 1.80 AZN</p>
+            <label for="gum-flavor">Choose flavor:</label>
+            <select id="gum-flavor">
+                <option value="mint">Mint</option>
+                <option value="strawberry">Strawberry</option>
+                <option value="watermelon">Watermelon</option>
+            </select>
+            <button class="add-to-cart" data-product="Gums" data-price="1.80">Add to Cart</button>
+        </div>
+    </section>
+    <section id="cart">
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: <span id="cart-total">0</span> AZN</p>
+        <button id="checkout-button">Checkout</button>
+    </section>
+
+
+    <section id="checkout-form" style="display: none;">
+        <h2>Checkout</h2>
+        <p>Choose Payment Method:</p>
+        <label for="payment-method-bank">
+            <input type="radio" name="payment-method" id="payment-method-bank" value="bank"> Bank Transfer
+        </label>
+        <label for="payment-method-cash">
+            <input type="radio" name="payment-method" id="payment-method-cash" value="cash"> Cash on Pickup
+        </label>
+
+        <div id="cash-details" style="display: none;">
+            <label for="name">Name:</label>
+            <input type="text" id="name">
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname">
+            <label for="class">Class:</label>
+            <input type="text" id="class">
+            <label for="pickup-time">Pickup Time:</label>
+            <input type="text" id="pickup-time">
+        </div>
+
+        <button id="confirm-order">Confirm Order</button>
+
+        <div id="order-confirmation" style="display: none;">
+            <h3>Your ORDER IS CONFIRMED</h3>
+            <p>Please come and take your order from 8J. Say "I came to FNACKS" (our worker will approach you). Show order confirmation and give money if you want to pay with cash or show proof of bank transfer.</p>
+            <p><strong>Bank Card:</strong> 4613 8602 0387 6931</p>
+            <div id="qr-code"></div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>

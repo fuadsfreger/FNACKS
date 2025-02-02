@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener("DOMContentLoaded", () => {
     let cart = [];
 
@@ -25,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         cart.forEach(item => {
             const listItem = document.createElement("li");
-            listItem.textContent = `${item.product} (${item.flavor}) - ${item.price} AZN`;
+            listItem.textContent = `${item.product} (${item.flavor}) - ${item.price.toFixed(2)} AZN`;
             cartItemsContainer.appendChild(listItem);
             total += item.price;
         });
@@ -34,10 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Checkout button click
-    document.getElementById("checkout-button").addEventListener("click", () => {
-        document.getElementById("cart").style.display = "none";
-        document.getElementById("checkout-form").style.display = "block";
-    });
+    const checkoutButton = document.getElementById("checkout-button");
+    if (checkoutButton) {
+        checkoutButton.addEventListener("click", () => {
+            document.getElementById("cart").style.display = "none";
+            document.getElementById("checkout-form").style.display = "block";
+        });
+    }
 
     // Payment method selection
     const paymentMethods = document.querySelectorAll('input[name="payment-method"]');
@@ -52,30 +53,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Confirm order
-    document.getElementById("confirm-order").addEventListener("click", () => {
-        const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
-        if (!paymentMethod) {
-            alert("Please select a payment method.");
-            return;
-        }
-
-        if (paymentMethod.value === "cash") {
-            const name = document.getElementById("name").value;
-            const surname = document.getElementById("surname").value;
-            const email = document.getElementById("email").value;
-            const className = document.getElementById("class").value;
-            const pickupTime = document.getElementById("pickup-time").value;
-
-            if (!name || !surname || !email || !className || !pickupTime) {
-                alert("Please fill in all the details for cash payment.");
+    const confirmOrderButton = document.getElementById("confirm-order");
+    if (confirmOrderButton) {
+        confirmOrderButton.addEventListener("click", () => {
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
+            if (!paymentMethod) {
+                alert("Please select a payment method.");
                 return;
             }
 
-            generateQRCode(name, surname, className);
-        }
+            if (paymentMethod.value === "cash") {
+                const name = document.getElementById("name").value;
+                const surname = document.getElementById("surname").value;
+                const email = document.getElementById("email").value;
+                const className = document.getElementById("class").value;
+                const pickupTime = document.getElementById("pickup-time").value;
 
-        document.getElementById("order-confirmation").style.display = "block";
-    });
+                if (!name || !surname || !email || !className || !pickupTime) {
+                    alert("Please fill in all the details for cash payment.");
+                    return;
+                }
+
+                generateQRCode(name, surname, className);
+            }
+
+            document.getElementById("order-confirmation").style.display = "block";
+        });
+    }
 
     // Generate QR code for order confirmation
     function generateQRCode(name, surname, className) {
@@ -89,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
 
 
 

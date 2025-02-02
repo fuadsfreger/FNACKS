@@ -40,10 +40,15 @@ document.getElementById('confirm-order').addEventListener('click', () => {
     const name = document.getElementById('name').value;
     const surname = document.getElementById('surname').value;
     const className = document.getElementById('class').value;
-    const email = "fuadfarzaliyev53@gmail.com"; // Replace with user input if needed
+    const pickupTime = document.getElementById('pickup-time').value;
+    const email = "the recipient's email"
 
-    const orderDetails = cart.map(item => `${item.product}: ${item.price} AZN`).join("\n");
-    const orderData = `FNACKS Order\nName: ${name}\nSurname: ${surname}\nClass: ${className}\n\nOrder Details:\n${orderDetails}\nTotal: ${total.toFixed(2)} AZN`;
+    if (!name || !surname || !className || !pickupTime) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const orderData = `FNACKS Order\nName: ${name}\nSurname: ${surname}\nClass: ${className}\nPickup Time: ${pickupTime}`;
     
     document.getElementById('qr-code').innerHTML = "";
     new QRCode(document.getElementById('qr-code'), {
@@ -51,37 +56,35 @@ document.getElementById('confirm-order').addEventListener('click', () => {
         width: 128,
         height: 128
     });
+
     document.getElementById('order-confirmation').style.display = 'block';
-    
-    sendOrderEmail(name, surname, className, orderDetails, total, email);
+
+    sendEmail(name, surname, className, pickupTime, email);
 });
 
-function sendOrderEmail(name, surname, className, orderDetails, total, email) {
-    fetch("https://api.brevo.com/v3/smtp/email", {
+    const emailData = {
+        sender: { email: "fuadfarzaliyev53@gmail.com", name: "FNACKS Orders" },
+        to: [{ email: recipientEmail }],
+        subject: "FNACKS Order Confirmation",
+        htmlContent: `<h2>Your ORDER IS CONFIRMED</h2>
+                      <p><strong>Name:</strong> ${name}</p>
+                      <p><strong>Surname:</strong> ${surname}</p>
+                      <p><strong>Class:</strong> ${className}</p>
+                      <p><strong>Pickup Time:</strong> ${pickupTime}</p>
+                      <p>Please come and take your order from 8J. Say "I came to FNACKS" and show this email.</p>`
+    };
+
+    fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
-            "api-key": "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"
+            "api-key": apiKey
         },
-        body: JSON.stringify({
-            sender: { name: "FNACKS Shop", email: "fuadfarzaliyev53@gmail.com" },
-            to: [{ email: email, name: `${name} ${surname}` }],
-            subject: "Your FNACKS Order Confirmation",
-            htmlContent: `<h2>Your FNACKS Order is Confirmed!</h2>
-                          <p><strong>Name:</strong> ${name}</p>
-                          <p><strong>Surname:</strong> ${surname}</p>
-                          <p><strong>Class:</strong> ${className}</p>
-                          <p><strong>Order Details:</strong><br>${orderDetails.replace(/\n/g, "<br>")}</p>
-                          <p><strong>Total:</strong> ${total.toFixed(2)} AZN</p>
-                          <p>Thank you for your order! Please come and pick it up.</p>`
-        })
+        body: JSON.stringify(emailData)
     })
     .then(response => response.json())
     .then(data => console.log("Email sent:", data))
     .catch(error => console.error("Error sending email:", error));
 }
-
-
 
 

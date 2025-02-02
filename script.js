@@ -86,13 +86,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const qrCodeContainer = document.getElementById("qr-code");
         const orderInfo = `${name} ${surname} (${className})`;
 
-        const qrCode = new QRCode(qrCodeContainer, {
-            text: orderInfo,
-            width: 128,
-            height: 128
-        });
+        if (qrCodeContainer) {
+            new QRCode(qrCodeContainer, {
+                text: orderInfo,
+                width: 128,
+                height: 128
+            });
+        } else {
+            console.error("QR Code container not found!");
+        }
     }
 });
+
 
 
 

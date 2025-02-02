@@ -13,7 +13,7 @@
     </header>
     <section id="about-us">
         <h2>About Us</h2>
-        <p>We are an internet shop working in LANDAU School Bayil. Shop opened on 28/01/2025 and will continue as much as possible. THANK YOU FOR SUPPORTING US!</p>
+        <p>THANK YOU FOR SUPPORTING US!</p>
     </section>
     <section id="products">
         <h2>Products</h2>
@@ -49,6 +49,22 @@
                 <option value="watermelon">Watermelon</option>
             </select>
             <button class="add-to-cart" data-product="Gums" data-price="1.80">Add to Cart</button>
+        </div>
+        <div class="product">
+            <h3>Cheetos</h3>
+            <p>Price: 2.00 AZN</p>
+            <label for="cheetos-flavor">Choose flavor:</label>
+            <select id="cheetos-flavor">
+                <option value="cheese">Cheese</option>
+                <option value="spicy">Spicy</option>
+                <option value="ketchup">Ketchup</option>
+            </select>
+            <button class="add-to-cart" data-product="Cheetos" data-price="2.00">Add to Cart</button>
+        </div>
+        <div class="product">
+            <h3>Haribo Roulette</h3>
+            <p>Price: 1.00 AZN</p>
+            <button class="add-to-cart" data-product="Haribo Roulette" data-price="1.00">Add to Cart</button>
         </div>
     </section>
     <section id="cart">
@@ -90,7 +106,17 @@
             <div id="qr-code"></div>
         </div>
     </section>
+    
+    <div class="container">
+        <h1>FNACKS Login</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Name & Surname" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </div>
+    
     <script src="script.js"></script>
-</body>
-</html>
+    <script src="auth.js"></script>
 

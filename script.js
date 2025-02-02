@@ -1,90 +1,94 @@
-let cart = [];
-let total = 0;
+// script.js
 
-document.querySelectorAll('.add-to-cart').forEach(button => {
-    button.addEventListener('click', () => {
-        const product = button.getAttribute('data-product');
-        const price = parseFloat(button.getAttribute('data-price'));
-        cart.push({ product, price });
-        total += price;
-        updateCart();
-    });
-});
+document.addEventListener("DOMContentLoaded", () => {
+    let cart = [];
 
-function updateCart() {
-    const cartItems = document.getElementById('cart-items');
-    cartItems.innerHTML = '';
-
-    cart.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.product}: ${item.price} AZN`;
-        cartItems.appendChild(li);
+    // Add to cart function
+    const addToCartButtons = document.querySelectorAll(".add-to-cart");
+    addToCartButtons.forEach(button => {
+        button.addEventListener("click", (e) => {
+            const product = e.target.dataset.product;
+            const price = parseFloat(e.target.dataset.price);
+            const flavor = e.target.previousElementSibling.value || "No flavor selected";
+            
+            cart.push({ product, price, flavor });
+            updateCart();
+        });
     });
 
-    document.getElementById('cart-total').textContent = total.toFixed(2);
-}
+    // Update cart display
+    function updateCart() {
+        const cartItemsContainer = document.getElementById("cart-items");
+        const cartTotal = document.getElementById("cart-total");
+        cartItemsContainer.innerHTML = "";
+        let total = 0;
 
-document.getElementById('checkout-button').addEventListener('click', () => {
-    document.getElementById('checkout-form').style.display = 'block';
-});
+        cart.forEach(item => {
+            const listItem = document.createElement("li");
+            listItem.textContent = `${item.product} (${item.flavor}) - ${item.price} AZN`;
+            cartItemsContainer.appendChild(listItem);
+            total += item.price;
+        });
 
-document.getElementById('payment-method-cash').addEventListener('change', () => {
-    document.getElementById('cash-details').style.display = 'block';
-});
-
-document.getElementById('payment-method-bank').addEventListener('change', () => {
-    document.getElementById('cash-details').style.display = 'none';
-});
-
-document.getElementById('confirm-order').addEventListener('click', () => {
-    const name = document.getElementById('name').value;
-    const surname = document.getElementById('surname').value;
-    const className = document.getElementById('class').value;
-    const pickupTime = document.getElementById('pickup-time').value;
-    const email = "the recipient's email"
-
-    if (!name || !surname || !className || !pickupTime) {
-        alert("Please fill in all fields.");
-        return;
+        cartTotal.textContent = total.toFixed(2);
     }
 
-    const orderData = `FNACKS Order\nName: ${name}\nSurname: ${surname}\nClass: ${className}\nPickup Time: ${pickupTime}`;
-    
-    document.getElementById('qr-code').innerHTML = "";
-    new QRCode(document.getElementById('qr-code'), {
-        text: orderData,
-        width: 128,
-        height: 128
+    // Checkout button click
+    document.getElementById("checkout-button").addEventListener("click", () => {
+        document.getElementById("cart").style.display = "none";
+        document.getElementById("checkout-form").style.display = "block";
     });
 
-    document.getElementById('order-confirmation').style.display = 'block';
+    // Payment method selection
+    const paymentMethods = document.querySelectorAll('input[name="payment-method"]');
+    paymentMethods.forEach(method => {
+        method.addEventListener("change", (e) => {
+            if (e.target.value === "cash") {
+                document.getElementById("cash-details").style.display = "block";
+            } else {
+                document.getElementById("cash-details").style.display = "none";
+            }
+        });
+    });
 
-    sendEmail(name, surname, className, pickupTime, email);
+    // Confirm order
+    document.getElementById("confirm-order").addEventListener("click", () => {
+        const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
+        if (!paymentMethod) {
+            alert("Please select a payment method.");
+            return;
+        }
+
+        if (paymentMethod.value === "cash") {
+            const name = document.getElementById("name").value;
+            const surname = document.getElementById("surname").value;
+            const email = document.getElementById("email").value;
+            const className = document.getElementById("class").value;
+            const pickupTime = document.getElementById("pickup-time").value;
+
+            if (!name || !surname || !email || !className || !pickupTime) {
+                alert("Please fill in all the details for cash payment.");
+                return;
+            }
+
+            generateQRCode(name, surname, className);
+        }
+
+        document.getElementById("order-confirmation").style.display = "block";
+    });
+
+    // Generate QR code for order confirmation
+    function generateQRCode(name, surname, className) {
+        const qrCodeContainer = document.getElementById("qr-code");
+        const orderInfo = `${name} ${surname} (${className})`;
+
+        const qrCode = new QRCode(qrCodeContainer, {
+            text: orderInfo,
+            width: 128,
+            height: 128
+        });
+    }
 });
 
-    const emailData = {
-        sender: { email: "fuadfarzaliyev53@gmail.com", name: "FNACKS Orders" },
-        to: [{ email: recipientEmail }],
-        subject: "FNACKS Order Confirmation",
-        htmlContent: `<h2>Your ORDER IS CONFIRMED</h2>
-                      <p><strong>Name:</strong> ${name}</p>
-                      <p><strong>Surname:</strong> ${surname}</p>
-                      <p><strong>Class:</strong> ${className}</p>
-                      <p><strong>Pickup Time:</strong> ${pickupTime}</p>
-                      <p>Please come and take your order from 8J. Say "I came to FNACKS" and show this email.</p>`
-    };
-
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "api-key": apiKey
-        },
-        body: JSON.stringify(emailData)
-    })
-    .then(response => response.json())
-    .then(data => console.log("Email sent:", data))
-    .catch(error => console.error("Error sending email:", error));
-}
 
 
